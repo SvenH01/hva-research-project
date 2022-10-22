@@ -3,12 +3,16 @@ import {Button} from "primereact/button";
 import {useState} from "react";
 
 const Home: NextPage = () => {
-    const [count,setCount] = useState(0);
   return (
 
-      <div className="text-center">
-          <Button label="Click" icon="pi pi-plus" onClick={e => setCount(count + 1)}></Button>
-          <div className="text-2xl text-900 mt-3">{count}</div>
+      <div className="flex align-content-center justify-content-center text-center p-2 h-screen">
+          <div className="flex align-items-center">
+              Welcome to this demo site, made to test the security of serverside authentication in NextJS.
+              <br/>
+              <br/>
+              Made by Sven Hoving
+          </div>
+
       </div>
   )
 }
