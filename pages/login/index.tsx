@@ -23,7 +23,7 @@ const defaultValues = {
 const Login = () => {
     const [countries, setCountries] = useState([]);
     const [showMessage, setShowMessage] = useState(false);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState<any>({});
     const countryservice = new CountryService();
 
     useEffect(() => {
@@ -66,7 +66,7 @@ const Login = () => {
                     <i className="pi pi-check-circle" style={{ fontSize: '5rem', color: 'var(--green-500)' }}></i>
                     <h5>Registration Successful!</h5>
                     <p style={{ lineHeight: 1.5, textIndent: '1rem' }}>
-                        Your account is registered under name <b>{formData.name}</b> ; it'll be valid next 30 days without activation. Please check <b>{formData.email}</b> for activation instructions.
+                        Your account is registered under name <b>{formData.name}</b> ; it&apos;ll be valid next 30 days without activation. Please check <b>{formData.email}</b> for activation instructions.
                     </p>
                 </div>
             </Dialog>
@@ -108,7 +108,7 @@ const Login = () => {
                         <div className="field pt-2">
                             <span className="p-float-label">
                                 <Controller name="date" control={control} render={({ field }) => (
-                                    <Calendar id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />
+                                    <Calendar id={field.name} onChange={(e) => field.onChange(e.value)} dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />
                                 )} />
                                 <label htmlFor="date">Birthday</label>
                             </span>
