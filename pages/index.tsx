@@ -23,13 +23,13 @@ const IndexPage: NextPage<PostDataListProps> = ({
         <title>Home page</title>
       </Head>
 
-      <h1>List of posts</h1>
+      <h1>Nils Hoving is een sukkel haha</h1>
 
-      <section>
-        {postDataList.map((post: PostData) => (
-          <Post {...post} key={post.id} />
-        ))}
-      </section>
+      {/*<section>*/}
+      {/*  {postDataList.map((post: PostData) => (*/}
+      {/*    <Post {...post} key={post.id} />*/}
+      {/*  ))}*/}
+      {/*</section>*/}
     </main>
   )
 }
