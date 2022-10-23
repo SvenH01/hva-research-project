@@ -6,7 +6,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 
-import Navbar from "../components/common/Navbar";
+import Navbar from "components/common/Navbar";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <>

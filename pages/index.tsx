@@ -5,8 +5,9 @@ import {useState} from "react";
 const Home: NextPage = () => {
   return (
 
-      <div className="flex align-content-center justify-content-center text-center p-2 h-screen">
-          <div className="flex align-items-center">
+      <div className="flex-row align-content-center justify-content-center p-2 h-screen">
+          <h3 >YOU ARE NOT LOGGED IN</h3>
+          <div>
               Welcome to this demo site, made to test the security of serverside authentication in NextJS.
               <br/>
               <br/>
