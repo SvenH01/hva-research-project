@@ -123,11 +123,12 @@ const Home: NextPage = () => {
                             className="border-2 px-5 py-3"
                             placeholder="description..."
                         />
-                        <input
-                            className="bg-green-500 text-white px-3 py-3"
-                            type="submit"
-                            value="Add todo"
-                        />
+                        I removed this button so people wont spam the db
+                        {/*<input*/}
+                        {/*    className="bg-green-500 text-white px-3 py-3"*/}
+                        {/*    type="submit"*/}
+                        {/*    value="Add todo"*/}
+                        {/*/>*/}
                     </form>
                 </div>
             </div>
