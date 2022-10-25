@@ -69,7 +69,7 @@ const Home: NextPage = () => {
                     </div>
                     <div>
                         <Button
-                            onClick={() => refetchSecretMessage()}
+                            onClick={() => {}}
                             className="bg-blue-500 text-white px-5 py-3"
                         >
                             fetch from trpc
