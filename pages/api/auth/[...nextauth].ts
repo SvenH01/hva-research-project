@@ -101,8 +101,8 @@ export function requestWrapper(
         debug: true,
         providers: [
             GithubProvider({
-                clientId: env.GITHUB_CLIENT_ID,
-                clientSecret: env.GITHUB_CLIENT_SECRET,
+                clientId: env.GITHUB_ID,
+                clientSecret: env.GITHUB_SECRET,
             }),
             CredentialProvider({
                 name: "CredentialProvider",

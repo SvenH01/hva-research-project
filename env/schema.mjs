@@ -31,8 +31,8 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
     DATABASE_URL: process.env.DATABASE_URL,
-    GIBHUB_ID: process.env.GITHUB_CLIENT_ID,
-    GITHUB_SECRET: process.env.GITHUB_CLIENT_SECRET,
+    GIBHUB_ID: process.env.GITHUB_ID,
+    GITHUB_SECRET: process.env.GITHUB_SECRET,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NODE_ENV: process.env.NODE_ENV,
