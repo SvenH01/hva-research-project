@@ -1,4 +1,11 @@
 // src/pages/_app.tsx
+import '../styles/globals.css';
+import 'primereact/resources/themes/lara-dark-purple/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
+import "../styles/globals.css";
+
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
@@ -7,14 +14,15 @@ import superjson from "superjson";
 import type { AppType } from "next/app";
 import type { AppRouter } from "server/router"
 import type { Session } from "next-auth";
-import "../styles/globals.css";
 
+import Navbar from "components/common/Navbar";
 const MyApp: AppType<{ session: Session | null }> = ({
                                                        Component,
                                                        pageProps: { session, ...pageProps },
                                                      }) => {
   return (
       <SessionProvider session={session}>
+        <Navbar/>
         <Component {...pageProps} />
       </SessionProvider>
   );
