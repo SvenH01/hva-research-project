@@ -2,14 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
 import { Password } from 'primereact/password';
-import { Checkbox } from 'primereact/checkbox';
-import { Dialog } from 'primereact/dialog';
-import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
-import { CountryService } from 'service/CountryService';
 import {signIn} from "next-auth/react";
 
 const defaultValues = {
@@ -18,21 +12,13 @@ const defaultValues = {
 }
 
 const Login = () => {
-    const [showMessage, setShowMessage] = useState(false);
-    const [formData, setFormData] = useState<any>({});
-    const countryservice = new CountryService();
-
-    const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
+    const { control, formState: { errors }, handleSubmit, reset }: any = useForm({ defaultValues });
 
     const getFormErrorMessage = (name: string) => {
-        // @ts-ignore
         return errors[name] && <small className="p-error">{errors[name].message}</small>
     };
 
     const onSubmit = (data: React.SetStateAction<{}>) => {
-        setFormData(data);
-        setShowMessage(true);
-
         reset();
     };
 
@@ -60,7 +46,8 @@ const Login = () => {
                         {getFormErrorMessage('name')}
                     </div>
 
-                    <Button label={"Login with GitHub"} onClick={() => signIn()}/>
+                    <Button label={"Login with GitHub"} onClick={() =>
+                        signIn('github')}/>
 
                     <Button type="submit" label="Login" className="mt-2" />
                 </form>
