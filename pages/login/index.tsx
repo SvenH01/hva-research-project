@@ -18,7 +18,7 @@ const Login = () => {
         return errors[name] && <small className="p-error">{errors[name].message}</small>
     };
 
-    const onSubmit = (data: React.SetStateAction<{}>) => {
+    const onSubmit = (data: React.SetStateAction<any>) => {
         reset();
     };
 

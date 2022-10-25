@@ -9,7 +9,6 @@ import { Checkbox } from 'primereact/checkbox';
 import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
-import { CountryService } from 'service/CountryService';
 
 const defaultValues = {
     name: '',
@@ -24,24 +23,15 @@ const SignUp = () => {
     const [countries, setCountries] = useState([]);
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState<any>({});
-    const countryservice = new CountryService();
 
-    useEffect(() => {
-        countryservice.getCountries().then(data => setCountries(data));
-    }, [countryservice]);
 
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
 
-    const onSubmit = (data: React.SetStateAction<{}>) => {
+    const onSubmit = (data: React.SetStateAction<any>) => {
         setFormData(data);
         setShowMessage(true);
 
         reset();
-    };
-
-    const getFormErrorMessage = (name: string) => {
-        // @ts-ignore
-        return errors[name] && <small className="p-error">{errors[name].message}</small>
     };
 
     const dialogFooter = <div className="flex justify-content-center"><Button label="OK" className="p-button-text" autoFocus onClick={() => setShowMessage(false)} /></div>;
@@ -82,7 +72,6 @@ const SignUp = () => {
                                 )} />
                                 <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Name*</label>
                             </span>
-                            {getFormErrorMessage('name')}
                         </div>
                         <div className="field pt-2">
                             <span className="p-float-label p-input-icon-right">
@@ -94,7 +83,6 @@ const SignUp = () => {
                                             )} />
                                 <label htmlFor="email" className={classNames({ 'p-error': !!errors.email })}>Email*</label>
                             </span>
-                            {getFormErrorMessage('email')}
                         </div>
                         <div className="field pt-2">
                             <span className="p-float-label">
@@ -103,7 +91,6 @@ const SignUp = () => {
                                 )} />
                                 <label htmlFor="password" className={classNames({ 'p-error': errors.password })}>Password*</label>
                             </span>
-                            {getFormErrorMessage('password')}
                         </div>
                         <div className="field pt-2">
                             <span className="p-float-label">
