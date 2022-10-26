@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import { useSession, signIn, signOut } from "next-auth/react";
-import Head from "next/head";
 import { trpc } from "utils/trpc";
 import { useForm } from "react-hook-form";
 import {Button} from "primereact/button";
@@ -70,7 +69,7 @@ const Home: NextPage = () => {
                     <div>
                         <Button
                             onClick={() => {}}
-                            className="bg-blue-500 text-white px-5 py-3"
+                            className="text-white px-5 py-3"
                         >
                             fetch from trpc
                         </Button>
@@ -83,7 +82,7 @@ const Home: NextPage = () => {
                         <>
                             <Button
                                 onClick={() => signOut()}
-                                className="bg-blue-500 text-white px-3 py-3 mt-2"
+                                className="text-white px-3 py-3 mt-2"
                             >
                                 Sign Out - {session.user?.name}
                             </Button>
@@ -92,13 +91,13 @@ const Home: NextPage = () => {
                         <div className="flex w-full">
                             <Button
                                 onClick={() => signIn("github")}
-                                className="bg-blue-500 text-white px-3 py-3 mt-2"
+                                className="text-white px-3 py-3 mt-2"
                             >
                                 Sign In With Github
                             </Button>
                             <Button
                                 onClick={() => signIn()}
-                                className="bg-blue-500 text-white px-3 py-3 mt-2"
+                                className="text-white px-3 py-3 mt-2"
                             >
                                 Sign In With Email
                             </Button>

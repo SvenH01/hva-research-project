@@ -18,13 +18,13 @@ const Navbar = () => {
 
     return <Menubar
         model={items}
-        end={<><Button label="Login" className={"mr-2"} icon="pi pi-sign-in" onClick={ () => {
-            router.push("/login");
-        }
-        }/><Button label="Sign-up" icon="pi pi-upload" onClick={ () => {
-            router.push("/sign-up");
-        }
-        }/></>}
+        // end={<><Button label="Login" className={"mr-2"} icon="pi pi-sign-in" onClick={ () => {
+        //     router.push("/login");
+        // }
+        // }/><Button label="Sign-up" icon="pi pi-upload" onClick={ () => {
+        //     router.push("/sign-up");
+        // }
+        // }/></>}
     />
 }
 
