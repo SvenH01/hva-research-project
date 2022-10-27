@@ -41,7 +41,12 @@ const Login = ( {csrf, providers } : {csrf: string, providers: AppProvider}) => 
                     }
                     return (
                         <div key={provider.name}>
-                            <Button onClick={() => signIn(provider.id)}>{provider.name}</Button>
+                            <Button onClick={() => {
+                                signIn(provider.id).then((res) => {
+                                    console.log(res)
+                                })
+                            }
+                            }>{provider.name}</Button>
                         </div>
                     )
                 })
