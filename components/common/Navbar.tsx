@@ -1,6 +1,4 @@
 import {Menubar} from "primereact/menubar";
-import {InputText} from "primereact/inputtext";
-import {Button} from "primereact/button";
 import {useRouter} from "next/router";
 
 const Navbar = () => {

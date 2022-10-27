@@ -15,12 +15,10 @@ const defaultValues = {
     email: '',
     password: '',
     date: null,
-    country: null,
     accept: false
 }
 
 const SignUp = () => {
-    const [countries, setCountries] = useState([]);
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState<any>({});
 
@@ -28,10 +26,7 @@ const SignUp = () => {
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
 
     const onSubmit = (data: React.SetStateAction<any>) => {
-        setFormData(data);
-        setShowMessage(true);
-
-        reset();
+        return null
     };
 
     const dialogFooter = <div className="flex justify-content-center"><Button label="OK" className="p-button-text" autoFocus onClick={() => setShowMessage(false)} /></div>;
@@ -98,14 +93,6 @@ const SignUp = () => {
                                     <Calendar id={field.name} onChange={(e) => field.onChange(e.value)} dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />
                                 )} />
                                 <label htmlFor="date">Birthday</label>
-                            </span>
-                        </div>
-                        <div className="field pt-2">
-                            <span className="p-float-label">
-                                <Controller name="country" control={control} render={({ field }) => (
-                                    <Dropdown id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={countries} optionLabel="name" />
-                                )} />
-                                <label htmlFor="country">Country</label>
                             </span>
                         </div>
                         <div className="field-checkbox">

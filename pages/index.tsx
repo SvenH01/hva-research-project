@@ -68,7 +68,7 @@ const Home: NextPage = () => {
                     </div>
                     <div>
                         <Button
-                            onClick={() => {}}
+                            onClick={() => {return}}
                             className="text-white px-5 py-3"
                         >
                             fetch from trpc
