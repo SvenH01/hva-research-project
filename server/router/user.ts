@@ -1,7 +1,7 @@
-import { createProtectedRouter, createRouter } from "./context";
+import { createProtectedUserRouter, createRouter } from "./context";
 import { z } from "zod";
 
-export const userRouter = createProtectedRouter().mutation("changePassword", {
+export const userRouter = createProtectedUserRouter().mutation("changePassword", {
     input: z.object({ password: z.string().min(8) }),
     async resolve({ ctx, input }) {
         console.log(
@@ -19,4 +19,9 @@ export const userRouter = createProtectedRouter().mutation("changePassword", {
             },
         });
     },
+}).query("getSuperSecretMessage", {
+    output: z.string(),
+    resolve({ ctx }) {
+        return "You are Authenticated as " + ctx.session.user.name;
+    }
 });

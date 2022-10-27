@@ -4,7 +4,7 @@ import CredentialProvider from "next-auth/providers/credentials";
 
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "server/prisma/client";
+import { prisma } from "utils/prisma/client";
 import { env } from "env/server.mjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
@@ -37,10 +37,13 @@ export function requestWrapper(
                 if (session.user) {
                     session.user.id = user.id;
                 }
+
                 return session;
             },
             async signIn({ user, account, profile, email, credentials }) {
-                // Check if this sign in callback is being called in the credentials authentication flow. If so, use the next-auth adapter to create a session entry in the database (SignIn is called after authorize so we can safely assume the user is valid and already authenticated).
+                // Check if this sign in callback is being called in the credentials authentication flow.
+                // If so, use the next-auth adapter to create a session entry in the database
+                // (SignIn is called after authorize so we can safely assume the user is valid and already authenticated).
                 if (
                     req.query.nextauth?.includes("callback") &&
                     req.query.nextauth?.includes("credentials") &&
@@ -130,6 +133,9 @@ export function requestWrapper(
                 },
             }),
         ],
+        pages: {
+            signIn: "/auth/login",
+        }
     };
 
     return [req, res, opts];

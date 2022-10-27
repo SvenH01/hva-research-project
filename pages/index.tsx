@@ -68,7 +68,7 @@ const Home: NextPage = () => {
                     </div>
                     <div>
                         <Button
-                            onClick={() => {return}}
+                            onClick={() => refetchSecretMessage()}
                             className="text-white px-5 py-3"
                         >
                             fetch from trpc
@@ -90,16 +90,10 @@ const Home: NextPage = () => {
                     ) : (
                         <div className="flex w-full">
                             <Button
-                                onClick={() => signIn("github")}
-                                className="text-white px-3 py-3 mt-2"
-                            >
-                                Sign In With Github
-                            </Button>
-                            <Button
                                 onClick={() => signIn()}
                                 className="text-white px-3 py-3 mt-2"
                             >
-                                Sign In With Email
+                                Sign In
                             </Button>
                         </div>
                     )}
@@ -122,12 +116,11 @@ const Home: NextPage = () => {
                             className="border-2 px-5 py-3"
                             placeholder="description..."
                         />
-                        I removed this button so people wont spam the db
-                        {/*<input*/}
-                        {/*    className="bg-green-500 text-white px-3 py-3"*/}
-                        {/*    type="submit"*/}
-                        {/*    value="Add todo"*/}
-                        {/*/>*/}
+                        <input
+                            className="bg-green-500 text-white px-3 py-3"
+                            type="submit"
+                            value="Add todo"
+                        />
                     </form>
                 </div>
             </div>
