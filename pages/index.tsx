@@ -69,7 +69,7 @@ const Home: NextPage = () => {
                     <div>
                         <Button
                             onClick={() => refetchSecretMessage()}
-                            className="text-white px-5 py-3"
+                            className="px-5 py-3"
                         >
                             fetch from trpc
                         </Button>
@@ -82,7 +82,7 @@ const Home: NextPage = () => {
                         <>
                             <Button
                                 onClick={() => signOut()}
-                                className="text-white px-3 py-3 mt-2"
+                                className="px-3 py-3 mt-2"
                             >
                                 Sign Out - {session.user?.name}
                             </Button>
@@ -91,13 +91,13 @@ const Home: NextPage = () => {
                         <div className="flex w-full">
                             <Button
                                 onClick={() => signIn("github")}
-                                className="text-white px-3 py-3 mt-2"
+                                className="px-3 py-3 mt-2"
                             >
                                 Sign In With Github
                             </Button>
                             <Button
                                 onClick={() => signIn()}
-                                className="text-white px-3 py-3 mt-2"
+                                className="px-3 py-3 mt-2"
                             >
                                 Sign In With Email
                             </Button>

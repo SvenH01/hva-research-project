@@ -30,24 +30,21 @@ const Login = ( {csrf, providers } : {csrf: string, providers: AppProvider}) => 
                 control={control}
                 render={({field}) => <Password feedback={false} toggleMask {...field}/>}
             />
-            <Button type={"submit"}>
+            <Button key={"submit this shite"} type={"submit"}>
                 Sign in with credentials
             </Button>
 
             {
-                Object.values(providers).map((provider: AppProvider) => {
+                Object.values(providers).map((provider: AppProvider, index) => {
                     if (provider.type === "credentials") {
                         return null
                     }
-                    return (
-                        <div key={provider.name}>
-                            <Button onClick={() => {
+                    return ( <Button key={index} onClick={() => {
                                 signIn(provider.id).then((res) => {
                                     console.log(res)
                                 })
                             }
-                            }>{provider.name}</Button>
-                        </div>
+                    }>{provider.name}</Button>
                     )
                 })
             }
