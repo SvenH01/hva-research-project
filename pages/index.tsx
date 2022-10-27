@@ -90,16 +90,12 @@ const Home: NextPage = () => {
                     ) : (
                         <div className="flex w-full">
                             <Button
-                                onClick={() => signIn("github")}
+                                onClick={() => {
+                                    // signIn()
+                                }}
                                 className="px-3 py-3 mt-2"
                             >
-                                Sign In With Github
-                            </Button>
-                            <Button
-                                onClick={() => signIn()}
-                                className="px-3 py-3 mt-2"
-                            >
-                                Sign In With Email
+                                Sign In
                             </Button>
                         </div>
                     )}
