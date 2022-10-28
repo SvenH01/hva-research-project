@@ -16,12 +16,13 @@ const Login = ( {csrf, providers } : {csrf: string, providers: AppProvider}) => 
 
     const {register, control, handleSubmit} = useForm({defaultValues: defaultValues});
 
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: { email: string; password: string; }) => {
         signIn('credentials', {email: data.email, password: data.password, csrfToken: csrf, callbackUrl: '/'})
     };
 
 
     return (
+        <div>
         <form onSubmit={handleSubmit(onSubmit)}>
             <InputText {...register('email')}/>
             <Controller
@@ -32,26 +33,22 @@ const Login = ( {csrf, providers } : {csrf: string, providers: AppProvider}) => 
             <Button key={"submit this shite"} type={"submit"}>
                 Sign in with credentials
             </Button>
-
+        </form>
             {
                 Object.values(providers).map((provider: AppProvider, index) => {
                     if (provider.type === "credentials") {
                         return null
                     }
                     return ( <Button key={index} onClick={() => {
-                                signIn(provider.id).then((res) => {
-                                    console.log(res)
-                                })
-                            }
-                    }>{provider.name}</Button>
+                            signIn(provider.id, {callbackUrl: '/'})
+                        }
+                        }>
+                            {provider.name}
+                        </Button>
                     )
                 })
             }
-
-
-
-        </form>
-
+        </div>
     );
 }
 
