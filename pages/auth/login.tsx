@@ -30,7 +30,7 @@ const Login = ( {csrf, providers } : {csrf: string, providers: AppProvider}) => 
                 control={control}
                 render={({field}) => <Password feedback={false} toggleMask {...field}/>}
             />
-            <Button key={"submit this shite"} type={"submit"}>
+            <Button key={"submit-with-credentials"} type={"submit"}>
                 Sign in with credentials
             </Button>
         </form>

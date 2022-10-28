@@ -53,8 +53,7 @@ const Home: NextPage = () => {
         <>
             <div className="mx-auto flex flex-column justify-center min-h-screen p-4">
                 <h1 className="text-3xl font-bold">
-                    Create T3 App - NextAuth Database Session with Credentials Provider
-                    Proof of Concept
+                    NextAuth Database Session with Credentials Provider and Oauth2.0
                 </h1>
                 <div className="mt-5 border-2 p-5 flex flex-col justify-center">
                     <div className="flex items-center w-full">
