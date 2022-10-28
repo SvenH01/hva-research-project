@@ -91,7 +91,7 @@ const Home: NextPage = () => {
                         <div className="flex w-full">
                             <Button
                                 onClick={() => {
-                                    // signIn()
+                                    signIn()
                                 }}
                                 className="px-3 py-3 mt-2"
                             >
