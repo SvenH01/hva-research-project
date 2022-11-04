@@ -4,10 +4,13 @@ import * as trpcNext from "@trpc/server/adapters/next";
 import { Session } from "next-auth";
 import { getServerAuthSession } from "server/common/get-server-auth-session";
 import { prisma } from "utils/prisma/client";
+import {NextApiRequest, NextApiResponse} from "next";
 
 
 type CreateContextOptions = {
     session: Session | null;
+    req: NextApiRequest,
+    res: NextApiResponse
 };
 
 /** Use this helper for:
@@ -16,6 +19,8 @@ type CreateContextOptions = {
  **/
 export const createContextInner = async (opts: CreateContextOptions) => {
     return {
+        req: opts.req,
+        res: opts.res,
         session: opts.session,
         prisma,
     };
@@ -35,6 +40,8 @@ export const createContext = async (
 
     return await createContextInner({
         session,
+        req,
+        res
     });
 };
 
@@ -53,7 +60,6 @@ export function createProtectedUserRouter() {
         return next({
             ctx: {
                 ...ctx,
-                // infers that `session` is non-nullable to downstream resolvers
                 session: { ...ctx.session, user: ctx.session.user },
             },
         });
@@ -65,7 +71,6 @@ export function createProtectedAdminRouter(){
         if (!ctx.session || !ctx.session.user) {
             throw new trpc.TRPCError({ code: "UNAUTHORIZED" });
         }
-
         const user = await ctx.prisma.user.findUnique({
             where: {
                 id: ctx.session.user.id,
@@ -78,7 +83,6 @@ export function createProtectedAdminRouter(){
         return next({
             ctx: {
                 ...ctx,
-                // infers that `session` is non-nullable to downstream resolvers
                 session: { ...ctx.session, user: ctx.session.user },
             },
         });

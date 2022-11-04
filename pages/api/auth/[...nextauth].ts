@@ -1,4 +1,4 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialProvider from "next-auth/providers/credentials";
 
@@ -40,7 +40,7 @@ export function requestWrapper(
 
                 return session;
             },
-            async signIn({ user, account, profile, email, credentials }) {
+            async signIn({ user }) {
                 // Check if this sign in callback is being called in the credentials authentication flow.
                 // If so, use the next-auth adapter to create a session entry in the database
                 // (SignIn is called after authorize so we can safely assume the user is valid and already authenticated).

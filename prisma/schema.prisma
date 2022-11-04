@@ -62,7 +62,6 @@ model User {
 enum Role {
     USER
     ADMIN
-    ILSE
 }
 
 model VerificationToken {

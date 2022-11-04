@@ -1,4 +1,4 @@
-import {createProtectedAdminRouter, createProtectedUserRouter, createRouter} from "./context";
+import {createProtectedAdminRouter} from "./context";
 import { z } from "zod";
 
 export const adminRouter = createProtectedAdminRouter().query("getSuperSuperSecretMessage", {
