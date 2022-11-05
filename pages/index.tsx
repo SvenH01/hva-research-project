@@ -15,12 +15,14 @@ const Home: NextPage = () => {
         retry: false,
     });
 
-    const { data: allExample, refetch: refetchGetAll } = trpc.useQuery(
-        ["example.getAll"],
-        {}
-    );
-
     const { data: session } = useSession();
+
+    const { data: allExample } = trpc.useQuery(
+        ["user.getAll"],
+        {
+            enabled: !!session
+        }
+    );
 
     const { mutate: changePassword } = trpc.useMutation(["user.changePassword"], {
         onSuccess: () => alert("Sent request to change pwd"),
@@ -35,8 +37,9 @@ const Home: NextPage = () => {
         handleSubmit: handleChangePasswordSubmit,
     } = useForm<ChangePassword>();
 
-    const { mutate: addOne } = trpc.useMutation(["example.addOne"], {
-        onSuccess: () => alert("Succefully created new one"),
+    const { mutate: addOne } = trpc.useMutation(["user.addTodo"], {
+        onSuccess: () => alert("Succesfully added a new todo"),
+        onError: (error => alert(error.message))
     });
 
     type AddOne = {
