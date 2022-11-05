@@ -104,7 +104,7 @@ const Home: NextPage = () => {
                 </div>
 
                 <div className="mt-5 border-2 p-5 flex flex-column justify-center">
-                    <h1>This is just a db test</h1>
+                    <h1>TODO'S</h1>
                     <pre>{JSON.stringify(allExample, null, 2)}</pre>
 
                     <form className="flex gap-2" onSubmit={onSubmitAddOne}>
