@@ -39,7 +39,7 @@ export const userRouter = createProtectedUserRouter().mutation("changePassword",
 })
     .query("getAll", {
         async resolve({ ctx }) {
-            return await ctx.prisma.example.findMany();
+            return await ctx.prisma.post.findMany();
         },
     })
     .mutation("addTodo", {
@@ -48,7 +48,7 @@ export const userRouter = createProtectedUserRouter().mutation("changePassword",
             try {
                 await limiter.check(ctx.res, 10, 'CACHE_TOKEN') // 10 requests per minute
 
-                return await ctx.prisma.example.create({ data: input });
+                return await ctx.prisma.post.create({ data: input });
             } catch {
                 throw new trpc.TRPCError({ code: "TIMEOUT", message: "Rate limit exceeded"});
             }
