@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialProvider from "next-auth/providers/credentials";
-
+import EmailProvider from "next-auth/providers/email";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "utils/prisma/client";
@@ -134,6 +134,10 @@ export function requestWrapper(
                     return user;
                 },
             }),
+            EmailProvider({
+                server: process.env.EMAIL_SERVER,
+                from: process.env.EMAIL_FROM
+            })
         ],
         pages: {
             signIn: "/auth/login",

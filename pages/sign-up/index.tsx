@@ -9,12 +9,12 @@ import { Checkbox } from 'primereact/checkbox';
 import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
+import {trpc} from "../../utils/trpc";
 
 const defaultValues = {
     name: '',
     email: '',
     password: '',
-    date: null,
     accept: false
 }
 
@@ -25,8 +25,18 @@ const SignUp = () => {
 
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
 
+    const createUserMutation = trpc.useMutation(["user.new"])
+
     const onSubmit = (data: React.SetStateAction<any>) => {
         console.log(data)
+        createUserMutation.mutateAsync({
+            name: data.name,
+            password: data.password,
+            email: data.email,
+            role: "USER"
+        }).then(r => console.log(r)).catch((e) => {
+            console.log(e)
+        })
         return null
     };
 
@@ -86,14 +96,6 @@ const SignUp = () => {
                                     <Password id={field.name} {...field} toggleMask className={classNames({ 'p-invalid': fieldState.invalid })} header={passwordHeader} footer={passwordFooter} />
                                 )} />
                                 <label htmlFor="password" className={classNames({ 'p-error': errors.password })}>Password*</label>
-                            </span>
-                        </div>
-                        <div className="field pt-2">
-                            <span className="p-float-label">
-                                <Controller name="date" control={control} render={({ field }) => (
-                                    <Calendar id={field.name} onChange={(e) => field.onChange(e.value)} dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />
-                                )} />
-                                <label htmlFor="date">Birthday</label>
                             </span>
                         </div>
                         <div className="field-checkbox">

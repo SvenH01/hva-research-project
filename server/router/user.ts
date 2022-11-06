@@ -29,7 +29,7 @@ export const userRouter = createProtectedUserRouter()
     })
 
 export const newUserRouter = createRouter()
-    .mutation("create", {
+    .mutation("",{
         input: z.object({
                 name: z.string(),
                 email: z.string().email(),
