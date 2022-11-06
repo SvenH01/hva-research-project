@@ -131,7 +131,7 @@ const Home: NextPage = () => {
                 </div>
 
                 <div className="mt-5 border-2 p-5 flex flex-column justify-center">
-                    <h1>TODO'S</h1>
+                    <h1>TODO&apos;S</h1>
                     <div>{
                         todos ?
                         todos.map((todo, index) => {
