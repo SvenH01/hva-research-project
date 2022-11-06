@@ -73,6 +73,7 @@ export function requestWrapper(
         },
         jwt: {
             encode: async ({ token, secret, maxAge }) => {
+                console.log("REQ QUERY ENCODE", req.query.nextauth);
                 if (
                     req.query.nextauth?.includes("callback") &&
                     req.query.nextauth.includes("credentials") &&
@@ -83,10 +84,11 @@ export function requestWrapper(
                     if (cookie) return cookie;
                     else return "";
                 }
-                // Revert to default behaviour when not in the credentials provider callback flow
+                // // Revert to default behaviour when not in the credentials provider callback flow
                 return encode({ token, secret, maxAge });
             },
             decode: async ({ token, secret }) => {
+                console.log("REQ QUERY DECODE", req.query.nextauth);
                 if (
                     req.query.nextauth?.includes("callback") &&
                     req.query.nextauth.includes("credentials") &&

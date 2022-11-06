@@ -1,10 +1,19 @@
 import type { NextPage } from "next";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { trpc } from "utils/trpc";
-import { useForm } from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {Button} from "primereact/button";
+import {useRouter} from "next/router";
+import {InputText} from "primereact/inputtext";
+import {classNames} from "primereact/utils";
+import React from "react";
+import {Card} from "primereact/card";
+import {Divider} from "primereact/divider";
 
 const Home: NextPage = () => {
+    const router = useRouter();
+    const { data: session } = useSession();
+
     const {
         data: secretMessageData,
         refetch: refetchSecretMessage,
@@ -15,15 +24,21 @@ const Home: NextPage = () => {
         retry: false,
     });
 
-    const { data: session } = useSession();
 
-    const { data: allExample } = trpc.useQuery(
-        ["user.getAll"],
+
+    const { data: todos, refetch: refetchToDo } = trpc.useQuery(
+        ["todo.getAll"],
         {
             enabled: !!session
         }
     );
 
+    const clearCompleted = trpc.useMutation(["todo.clearAll"], {
+        onSuccess: () => {
+            alert("Succesfully removed all todo's")
+        },
+        onError: (error => alert(error.message))
+    })
     const { mutate: changePassword } = trpc.useMutation(["user.changePassword"], {
         onSuccess: () => alert("Sent request to change pwd"),
     });
@@ -37,8 +52,8 @@ const Home: NextPage = () => {
         handleSubmit: handleChangePasswordSubmit,
     } = useForm<ChangePassword>();
 
-    const { mutate: addOne } = trpc.useMutation(["user.addTodo"], {
-        onSuccess: () => alert("Succesfully added a new todo"),
+    const { mutate: addOne } = trpc.useMutation(["todo.addOne"], {
+        onSuccess: () => refetchToDo(),
         onError: (error => alert(error.message))
     });
 
@@ -90,42 +105,75 @@ const Home: NextPage = () => {
                             </Button>
                         </>
                     ) : (
-                        <div className="flex w-full">
-                            <Button
-                                onClick={() => {
-                                    signIn()
-                                }}
-                                className="px-3 py-3 mt-2"
-                            >
-                                Sign In
-                            </Button>
+                        <div>
+                            <div className="flex">
+                                <Button
+                                    onClick={() => {
+                                        signIn()
+                                    }}
+                                    className="px-3 py-3 mt-2"
+                                >
+                                    Sign In
+                                </Button>
+                            </div>
+                            <div className="flex">
+                                <Button
+                                    onClick={() => {
+                                        router.push("/sign-up")
+                                    }}
+                                    className="px-3 py-3 mt-2"
+                                >
+                                    Sign up
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </div>
 
                 <div className="mt-5 border-2 p-5 flex flex-column justify-center">
                     <h1>TODO'S</h1>
-                    <pre>{JSON.stringify(allExample, null, 2)}</pre>
+                    <div>{
+                        todos ?
+                        todos.map((todo, index) => {
+                        return <>
+
+                            <div key={index}>
+                                <h3>{todo.name}</h3>
+                                {todo.description}
+                            </div>
+                            <Divider/>
+                        </>
+                    }) : null}</div>
 
                     <form className="flex gap-2" onSubmit={onSubmitAddOne}>
-                        <input
+                        <InputText
                             type="text"
                             {...registerAddOneField("name")}
-                            className="border-2 px-5 py-3"
                             placeholder="name..."
                         />
-                        <input
+                        <InputText
                             type="text"
                             {...registerAddOneField("description")}
-                            className="border-2 px-5 py-3"
-                            placeholder="description..."
+                            placeholder="description"
                         />
-                        <input
-                            className="bg-green-500 text-white px-3 py-3"
+                        <Button
                             type="submit"
                             value="Add todo"
-                        />
+                        >
+                            Submit
+                        </Button>
+                        <Button
+                            type={"button"}
+                            onClick={
+                                () => {
+                                    clearCompleted.mutate()
+                                }
+                            }
+                        >
+                            Clear all
+                        </Button>
                     </form>
+
                 </div>
             </div>
         </>
