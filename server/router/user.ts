@@ -27,3 +27,20 @@ export const userRouter = createProtectedUserRouter()
             return "You are Authenticated as " + ctx.session.user.name;
         }
     })
+
+export const newUserRouter = createRouter()
+    .mutation("create", {
+        input: z.object({
+                name: z.string(),
+                email: z.string().email(),
+                password: z.string().regex(new RegExp("(?=^.{8,}$)(?=.*\\d)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$")),
+                role: z.enum(["ADMIN", "USER"])
+            }
+        ),
+        async resolve({ctx, input}) {
+            return await ctx.prisma.user.create({
+                    data: input
+                }
+            )
+        }
+})

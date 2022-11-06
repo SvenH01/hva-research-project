@@ -26,6 +26,7 @@ const SignUp = () => {
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
 
     const onSubmit = (data: React.SetStateAction<any>) => {
+        console.log(data)
         return null
     };
 
