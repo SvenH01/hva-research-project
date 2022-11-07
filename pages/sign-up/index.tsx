@@ -27,6 +27,8 @@ const SignUp = () => {
 
     const createUserMutation = trpc.useMutation(["user.new"])
 
+    const publicData = trpc.useQuery(["public.getPublicMessage"])
+
     const onSubmit = (data: React.SetStateAction<any>) => {
         console.log(data)
         createUserMutation.mutateAsync({
@@ -109,6 +111,7 @@ const SignUp = () => {
                     </form>
                 </div>
             </div>
+            { publicData.data && <div>{publicData.data}</div>}
         </div>
     );
 }

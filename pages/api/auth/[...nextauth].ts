@@ -31,6 +31,11 @@ export function requestWrapper(
 
     const opts: NextAuthOptions = {
         // Include user.id on session
+        session: {
+            strategy: "jwt",
+            maxAge: 30 * 24 * 60 * 60,
+            updateAge: 24 * 60 * 60
+        },
         adapter: adapter,
         callbacks: {
             session({ session, user }) {
@@ -39,66 +44,6 @@ export function requestWrapper(
                 }
 
                 return session;
-            },
-            async signIn({ user }) {
-                // Check if this sign in callback is being called in the credentials authentication flow.
-                // If so, use the next-auth adapter to create a session entry in the database
-                // (SignIn is called after authorize so we can safely assume the user is valid and already authenticated).
-                if (
-                    req.query.nextauth?.includes("callback") &&
-                    req.query.nextauth?.includes("credentials") &&
-                    req.method === "POST"
-                ) {
-                    if (user) {
-                        const sessionToken = generateSessionToken();
-                        const sessionMaxAge = 60 * 60 * 24 * 30; //30Daysconst sessionMaxAge = 60 * 60 * 24 * 30; //30Days
-                        const sessionExpiry = fromDate(sessionMaxAge);
-
-                        await adapter.createSession({
-                            sessionToken: sessionToken,
-                            userId: user.id,
-                            expires: sessionExpiry,
-                        });
-
-                        const cookies = new Cookies(req, res);
-
-                        cookies.set("next-auth.session-token", sessionToken, {
-                            expires: sessionExpiry,
-                        });
-                    }
-                }
-
-                return true;
-            },
-        },
-        jwt: {
-            encode: async ({ token, secret, maxAge }) => {
-                console.log("REQ QUERY ENCODE", req.query.nextauth);
-                if (
-                    req.query.nextauth?.includes("callback") &&
-                    req.query.nextauth.includes("credentials") &&
-                    req.method === "POST"
-                ) {
-                    const cookies = new Cookies(req, res);
-                    const cookie = cookies.get("next-auth.session-token");
-                    if (cookie) return cookie;
-                    else return "";
-                }
-                // // Revert to default behaviour when not in the credentials provider callback flow
-                return encode({ token, secret, maxAge });
-            },
-            decode: async ({ token, secret }) => {
-                console.log("REQ QUERY DECODE", req.query.nextauth);
-                if (
-                    req.query.nextauth?.includes("callback") &&
-                    req.query.nextauth.includes("credentials") &&
-                    req.method === "POST"
-                ) {
-                    return null;
-                }
-
-                // Revert to default behaviour when not in the credentials provider callback flow
-                return decode({ token, secret });
             },
         },
         // Configure one or more authentication providers
@@ -112,11 +57,12 @@ export function requestWrapper(
             CredentialProvider({
                 name: "CredentialProvider",
                 credentials: {
-                    email: { label: "Email", type: "text", placeholder: "jsmith" },
+                    email: { label: "Email", type: "text"},
                     password: { label: "Password", type: "password" },
                 },
                 async authorize(credentials, req) {
                     console.log(credentials);
+                    console.log("HHAHAHAHAHAHAHAAHHAAHHA")
 
                     // verifying if credential email exists on db
                     const user = await prisma.user.findUnique({
@@ -125,12 +71,23 @@ export function requestWrapper(
                         },
                     });
 
-                    if (!user) return null;
+                    if (!user) {
+                        console.log('user not found')
+                        return null
+                    }
 
-                    if (user.password === null) return null;
 
-                    if (user.password !== credentials?.password) return null;
+                    if (user.password === null) {
+                        console.log('user has no password')
+                        return null
+                    }
 
+                    if (user.password !== credentials?.password) {
+                        console.log('passwords do not match')
+                        return null
+                    }
+                    console.log('user found')
+                    console.log(user)
                     return user;
                 },
             }),

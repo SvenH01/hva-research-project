@@ -31,6 +31,7 @@ export const newUserRouter = createRouter()
             }
         ),
         async resolve({ctx, input}) {
+
             return await ctx.prisma.user.create({
                     data: input
                 }
