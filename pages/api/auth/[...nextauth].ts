@@ -37,15 +37,6 @@ export function requestWrapper(
             updateAge: 24 * 60 * 60
         },
         adapter: adapter,
-        callbacks: {
-            session({ session, user }) {
-                if (session.user) {
-                    session.user.id = user.id;
-                }
-
-                return session;
-            },
-        },
         // Configure one or more authentication providers
         secret: env.NEXTAUTH_SECRET,
         debug: true,
