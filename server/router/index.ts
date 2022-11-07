@@ -6,6 +6,7 @@ import { protectedRouter } from "./protected-router";
 import {newUserRouter, userRouter} from "./user";
 import { adminRouter } from "./admin";
 import {todoRouter} from "./todo";
+import {publicRouter} from "./public";
 
 export const appRouter = createRouter()
     .transformer(superjson)
@@ -14,5 +15,6 @@ export const appRouter = createRouter()
     .merge("admin.", adminRouter)
     .merge("todo.", todoRouter)
     .merge("user.new", newUserRouter)
+    .merge("public", publicRouter)
 // export type definition of API
 export type AppRouter = typeof appRouter;
