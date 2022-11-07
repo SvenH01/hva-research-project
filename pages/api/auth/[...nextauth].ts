@@ -40,9 +40,6 @@ export function requestWrapper(
                     password: { label: "Password", type: "password" },
                 },
                 async authorize(credentials, req) {
-                    console.log(credentials);
-                    console.log("HHAHAHAHAHAHAHAAHHAAHHA")
-
                     // verifying if credential email exists on db
                     const user = await prisma.user.findUnique({
                         where: {
@@ -50,22 +47,10 @@ export function requestWrapper(
                         },
                     });
 
-                    if (!user) {
-                        console.log('user not found')
+                    if (!user || user.password !== credentials?.password || user.password === null) {
                         return null
                     }
 
-
-                    if (user.password === null) {
-                        console.log('user has no password')
-                        return null
-                    }
-
-                    if (user.password !== credentials?.password) {
-                        console.log('passwords do not match')
-                        return null
-                    }
-                    console.log("user found", user);
                     return user;
                 },
             }),

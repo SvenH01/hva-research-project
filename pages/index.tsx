@@ -19,12 +19,20 @@ const Home: NextPage = () => {
         refetch: refetchSecretMessage,
         isError: isErrorSecretMessage,
         error: errorSecretMessage,
-    } = trpc.useQuery(["auth.getSecretMessage"], {
+    } = trpc.useQuery(["user.getSecretMessage"], {
         enabled: false,
         retry: false,
     });
 
-
+    const {
+        data: secretAdminMessageData,
+        refetch: refetchAdminSecretMessage,
+        isError: isErrorAdminSecretMessage,
+        error: errorAdminSecretMessage,
+    } = trpc.useQuery(["admin.getSecretMessage"], {
+        enabled: false,
+        retry: false,
+    });
 
     const { data: todos, refetch: refetchToDo } = trpc.useQuery(
         ["todo.getAll"],
@@ -43,6 +51,13 @@ const Home: NextPage = () => {
         onSuccess: () => alert("Sent request to change pwd"),
         onError: error => alert(error.message)
     });
+
+    const { data: userInfo, refetch: refetchUserIngo } = trpc.useQuery(
+        ["user.getUserInfo"],
+        {
+            enabled: !!session
+        }
+    );
 
     type ChangePassword = {
         password: string;
@@ -99,13 +114,34 @@ const Home: NextPage = () => {
                             onClick={() => refetchSecretMessage()}
                             className="px-5 py-3"
                         >
-                            fetch from trpc
+                            fetch (user only)
+                        </Button>
+                    </div>
+                </div>
+
+                <div className="mt-5 border-2 p-5 flex flex-col justify-center">
+                    <div className="flex items-center w-full">
+                        {secretAdminMessageData ? (
+                            <p>{secretAdminMessageData}</p>
+                        ) : isErrorAdminSecretMessage ? (
+                            <p>{errorAdminSecretMessage.message}</p>
+                        ) : (
+                            <p>Click below to test your authorization</p>
+                        )}
+                    </div>
+                    <div>
+                        <Button
+                            onClick={() => refetchAdminSecretMessage()}
+                            className="px-5 py-3"
+                        >
+                            fetch (admin only)
                         </Button>
                     </div>
                 </div>
 
                 {
                     session ? (
+                        <>
                         <div className="mt-5 border-2 p-5 flex flex-column justify-center">
                             <h2>Change password here!</h2>
                             <div className="flex">
@@ -123,6 +159,17 @@ const Home: NextPage = () => {
                                 <Button className={'ml-2'} onClick={onSubmitChangePassword}>Submit</Button>
                             </div>
                         </div>
+                        <div className="mt-5 border-2 p-5 flex flex-column justify-center">
+                            <h2>Damn this data yours?</h2>
+                            <div className="flex">
+                                {
+                                    userInfo ? ( userInfo.accounts.map((user, index) => {
+                                        return <pre id="json" className="max-w-10rem" key={index}>{JSON.stringify(user,undefined, 2)}</pre>
+                                    })) : null
+                                }
+                            </div>
+                        </div>
+                        </>
                     ) : null
                 }
 

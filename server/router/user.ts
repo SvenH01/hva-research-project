@@ -26,10 +26,23 @@ export const userRouter = createProtectedUserRouter()
             return await ctx.prisma.user.findUnique({
                 where: {
                     id: ctx.session.user.id,
+                },
+                select: {
+                    accounts: true
                 }
             });
         }
+    }).query("getSession", {
+        resolve({ ctx }) {
+            return ctx.session;
+        },
     })
+    .query("getSecretMessage", {
+        output: z.string(),
+        resolve({ ctx }) {
+            return "You are Authenticated as " + ctx.session.user.name;
+        },
+    });
 
 export const newUserRouter = createRouter()
     .mutation("",{

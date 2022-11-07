@@ -1,9 +1,9 @@
 import {createProtectedAdminRouter} from "./context";
 import { z } from "zod";
 
-export const adminRouter = createProtectedAdminRouter().query("getSuperSuperSecretMessage", {
+export const adminRouter = createProtectedAdminRouter().query("getSecretMessage", {
     output: z.string(),
     resolve({ ctx }) {
-        return "You are Authenticated as " + ctx.session.user.name;
+        return "You are a super user " + ctx.session.user.name + " and you are an admin!";
     }
 });
