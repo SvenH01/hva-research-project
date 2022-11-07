@@ -15,6 +15,6 @@ export const appRouter = createRouter()
     .merge("admin.", adminRouter)
     .merge("todo.", todoRouter)
     .merge("user.new", newUserRouter)
-    .merge("public", publicRouter)
+    .merge("public.", publicRouter)
 // export type definition of API
 export type AppRouter = typeof appRouter;

@@ -1,12 +1,5 @@
 import {createProtectedUserRouter, createRouter} from "./context";
 import {z} from "zod";
-import rateLimit from "utils/rate-limit";
-import * as trpc from "@trpc/server";
-
-const limiter = rateLimit({
-    interval: 60 * 1000, // 60 seconds
-    uniqueTokenPerInterval: 500, // Max 500 users per second
-})
 
 export const userRouter = createProtectedUserRouter()
     .mutation("changePassword", {
