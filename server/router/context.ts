@@ -13,10 +13,6 @@ type CreateContextOptions = {
     res: NextApiResponse
 };
 
-/** Use this helper for:
- * - testing, where we don't have to Mock Next.js's req/res
- * - trpc's `createSSGHelpers` where we don't have req/res
- **/
 export const createContextInner = async (opts: CreateContextOptions) => {
     return {
         req: opts.req,
@@ -26,10 +22,6 @@ export const createContextInner = async (opts: CreateContextOptions) => {
     };
 };
 
-/**
- * This is the actual context you'll use in your router
- * @link https://trpc.io/docs/context
- **/
 export const createContext = async (
     opts: trpcNext.CreateNextContextOptions,
 ) => {
@@ -75,7 +67,7 @@ export function createProtectedAdminRouter(){
             where: {
                 id: ctx.session.user.id,
             }
-        })
+        });
 
         if(user === null || user.role !== "ADMIN"){
             throw new trpc.TRPCError({ code: "UNAUTHORIZED" , message: "You are not an admin"});

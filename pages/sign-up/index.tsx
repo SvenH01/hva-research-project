@@ -111,7 +111,6 @@ const SignUp = () => {
                     </form>
                 </div>
             </div>
-            { publicData.data && <div>{publicData.data}</div>}
         </div>
     );
 }

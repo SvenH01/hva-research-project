@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, {NextAuthOptions, Session, User} from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialProvider from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
@@ -7,9 +7,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "utils/prisma/client";
 import { env } from "env/server.mjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { randomUUID } from "crypto";
-import Cookies from "cookies";
-import { decode, encode } from "next-auth/jwt";
+import {JWT} from "next-auth/jwt";
+import {unknown} from "zod";
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const data = requestWrapper(req, res);
@@ -22,20 +21,9 @@ export function requestWrapper(
     req: NextApiRequest,
     res: NextApiResponse
 ): [req: NextApiRequest, res: NextApiResponse, opts: NextAuthOptions] {
-    const generateSessionToken = () => randomUUID();
-
-    const fromDate = (time: number, date = Date.now()) =>
-        new Date(date + time * 1000);
-
     const adapter = PrismaAdapter(prisma);
 
     const opts: NextAuthOptions = {
-        // Include user.id on session
-        session: {
-            strategy: "jwt",
-            maxAge: 30 * 24 * 60 * 60,
-            updateAge: 24 * 60 * 60
-        },
         adapter: adapter,
         // Configure one or more authentication providers
         secret: env.NEXTAUTH_SECRET,
@@ -77,8 +65,7 @@ export function requestWrapper(
                         console.log('passwords do not match')
                         return null
                     }
-                    console.log('user found')
-                    console.log(user)
+                    console.log("user found", user);
                     return user;
                 },
             }),
@@ -87,6 +74,26 @@ export function requestWrapper(
                 from: process.env.EMAIL_FROM
             })
         ],
+        callbacks: {
+            async jwt({token,user}){
+                if(user){
+                    token.id = user.id
+                }
+                return token
+            },
+            async session({session, token}: {session: Session, token: any}){
+                if (session){
+                    session.user.id = token.id
+                }
+
+                return session
+            }
+        },
+        session: {
+            strategy: "jwt",
+            maxAge: 30 * 24 * 60 * 60,
+            updateAge: 24 * 60 * 60
+        },
         pages: {
             signIn: "/auth/login",
         }

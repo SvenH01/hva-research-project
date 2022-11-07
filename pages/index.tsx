@@ -41,13 +41,16 @@ const Home: NextPage = () => {
     })
     const { mutate: changePassword } = trpc.useMutation(["user.changePassword"], {
         onSuccess: () => alert("Sent request to change pwd"),
+        onError: error => alert(error.message)
     });
 
     type ChangePassword = {
         password: string;
+        repeatPassword: string;
     };
 
     const {
+        setError,
         register: registerChangePasswordField,
         handleSubmit: handleChangePasswordSubmit,
     } = useForm<ChangePassword>();
@@ -66,6 +69,14 @@ const Home: NextPage = () => {
         useForm<AddOne>();
 
     const onSubmitAddOne = handleAddOneSubmit((data) => addOne(data));
+
+    const onSubmitChangePassword = handleChangePasswordSubmit((data) => {
+        if (data.password === data.repeatPassword) {
+            changePassword(data);
+        } else {
+            setError('password', { message: "Passwords don't match" });
+        }
+    })
 
     return (
         <>
@@ -93,8 +104,26 @@ const Home: NextPage = () => {
                     </div>
                 </div>
 
+                <div className="mt-5 border-2 p-5 flex flex-column justify-center">
+                    <h2>Change password here!</h2>
+                    <div className="flex">
+                        <InputText
+                            type="text"
+                            {...registerChangePasswordField("password")}
+                            placeholder="new password"
+                        />
+                        <InputText
+                            className={'ml-2'}
+                            type="text"
+                            {...registerChangePasswordField("repeatPassword")}
+                            placeholder="repeat new password"
+                        />
+                        <Button className={'ml-2'} onClick={onSubmitChangePassword}>Submit</Button>
+                    </div>
+                </div>
+
                 <div className="mt-5 border-2 p-5 flex flex-column justify-content-center">
-                    <h1>Authenticate and sign out here!</h1>
+                    <h2>Authenticate and sign out here!</h2>
                     {session ? (
                         <>
                             <Button
@@ -131,25 +160,24 @@ const Home: NextPage = () => {
                 </div>
 
                 <div className="mt-5 border-2 p-5 flex flex-column justify-center">
-                    <h1>TODO&apos;S</h1>
+                    <h2>TODO&apos;S</h2>
                     <div>{
                         todos ?
                         todos.map((todo, index) => {
-                        return <>
-
-                            <div key={index}>
+                        return <div key={index}>
+                            <div >
                                 <h3>{todo.name}</h3>
                                 {todo.description}
                             </div>
                             <Divider/>
-                        </>
+                        </div>
                     }) : null}</div>
 
                     <form className="flex gap-2" onSubmit={onSubmitAddOne}>
                         <InputText
                             type="text"
                             {...registerAddOneField("name")}
-                            placeholder="name..."
+                            placeholder="title"
                         />
                         <InputText
                             type="text"

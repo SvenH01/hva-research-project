@@ -1,10 +1,12 @@
 import {createProtectedUserRouter, createRouter} from "./context";
 import {z} from "zod";
+import {getToken} from "next-auth/jwt";
 
 export const userRouter = createProtectedUserRouter()
     .mutation("changePassword", {
         input: z.object({password: z.string().min(8)}),
         async resolve({ctx, input}) {
+            // console.log(ctx)
             return await ctx.prisma.user.update({
                 where: {
                     id: ctx.session.user.id,
@@ -18,6 +20,14 @@ export const userRouter = createProtectedUserRouter()
         output: z.string(),
         resolve({ctx}) {
             return "You are Authenticated as " + ctx.session.user.name;
+        }
+    }).query("getUserInfo", {
+        async resolve({ctx}) {
+            return await ctx.prisma.user.findUnique({
+                where: {
+                    id: ctx.session.user.id,
+                }
+            });
         }
     })
 
