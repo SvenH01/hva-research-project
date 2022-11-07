@@ -104,23 +104,28 @@ const Home: NextPage = () => {
                     </div>
                 </div>
 
-                <div className="mt-5 border-2 p-5 flex flex-column justify-center">
-                    <h2>Change password here!</h2>
-                    <div className="flex">
-                        <InputText
-                            type="text"
-                            {...registerChangePasswordField("password")}
-                            placeholder="new password"
-                        />
-                        <InputText
-                            className={'ml-2'}
-                            type="text"
-                            {...registerChangePasswordField("repeatPassword")}
-                            placeholder="repeat new password"
-                        />
-                        <Button className={'ml-2'} onClick={onSubmitChangePassword}>Submit</Button>
-                    </div>
-                </div>
+                {
+                    session ? (
+                        <div className="mt-5 border-2 p-5 flex flex-column justify-center">
+                            <h2>Change password here!</h2>
+                            <div className="flex">
+                                <InputText
+                                    type="text"
+                                    {...registerChangePasswordField("password")}
+                                    placeholder="new password"
+                                />
+                                <InputText
+                                    className={'ml-2'}
+                                    type="text"
+                                    {...registerChangePasswordField("repeatPassword")}
+                                    placeholder="repeat new password"
+                                />
+                                <Button className={'ml-2'} onClick={onSubmitChangePassword}>Submit</Button>
+                            </div>
+                        </div>
+                    ) : null
+                }
+
 
                 <div className="mt-5 border-2 p-5 flex flex-column justify-content-center">
                     <h2>Authenticate and sign out here!</h2>
