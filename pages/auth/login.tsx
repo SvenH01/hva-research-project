@@ -37,23 +37,22 @@ const Login = ({csrf, providers}: { csrf: string, providers: AppProvider }) => {
                         <span className="p-float-label mb-3">
                             <Controller name="email" control={control} rules={{required: 'Name is required.'}}
                                         render={({field, fieldState}) => (
-                                            <InputText style={{width: '100%'}} id={field.name} {...field} autoFocus
+                                            <InputText style={{width: '100%'}} id={field.name} {...field}
                                                        className={classNames({'p-invalid': fieldState.invalid})}/>)}/>
                             <label htmlFor="email" className={classNames({'p-error': errors.email})}>Email</label>
                         </span>
-                    {!withEmail ? <><span className="p-float-label mb-3">
+                        <span hidden={withEmail} className="p-float-label mb-3">
                                 <Controller name="password" control={control}
-                                            rules={{required: 'Password is required.'}}
                                             render={({field, fieldState}) => (
-                                                <Password style={{width: '100%'}} inputStyle={{width: '100%'}}
-                                                          id={field.name} {...field} toggleMask feedback={false}
+                                                <Password hidden={withEmail} style={{width: '100%'}} inputStyle={{width: '100%'}}
+                                                          id={field.name} {...field} toggleMask={!withEmail} feedback={false}
                                                           className={classNames({'p-invalid': fieldState.invalid})}/>)}/>
-                                <label htmlFor="password"
+                                <label hidden={withEmail} htmlFor="password"
                                        className={classNames({'p-error': errors.password})}>Password</label>
                         </span>
                         <div className={'flex flex-row'}>
                             <Button key={"submit-with-credentials"} type={"submit"}>
-                                Sign in with credentials
+                                { !withEmail ? 'Sign in with credentials' : 'Sign in with email'}
                             </Button>
                             <span>
                                         <div>
@@ -71,33 +70,8 @@ const Login = ({csrf, providers}: { csrf: string, providers: AppProvider }) => {
 
                     </span>
                         </div>
-                    </> : null}
                 </form>
             </div>
-
-            {withEmail ? <div className={'flex flex-row'}><Button
-                    type="button"
-                    key={"loginwithemail"}
-                    className={'mb-3'}
-                    onClick={handleSubmit(onSubmit)}>
-                    Sign in with email
-                </Button>
-                    <span>
-                         <Checkbox
-                             className={'ml-3'}
-                             inputId="cb2"
-                             checked={withEmail}
-                             onChange={() => {
-                                 setWithEmail(!withEmail)
-                             }}
-                         />
-                                <label htmlFor="cb2" className="p-checkbox-label">Login with email code</label>
-                    </span>
-                </div>
-
-                : null
-
-            }
 
             <Divider/>
 

@@ -1,4 +1,4 @@
-import NextAuth, {NextAuthOptions, Session, User} from "next-auth";
+import NextAuth, {NextAuthOptions, Session} from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialProvider from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
@@ -7,8 +7,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "utils/prisma/client";
 import { env } from "env/server.mjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import {JWT} from "next-auth/jwt";
-import {unknown} from "zod";
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const data = requestWrapper(req, res);
@@ -60,7 +58,11 @@ export function requestWrapper(
             })
         ],
         callbacks: {
-            async jwt({token,user}){
+            async jwt({token,user, isNewUser}){
+                if (isNewUser) {
+                    alert('new user')
+                }
+
                 if(user){
                     token.id = user.id
                 }
